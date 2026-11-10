@@ -2,6 +2,7 @@
 
 Marketing website for EQTConnect, a centralized platform for AGM management and shareholder communications. Product copy comes from `EQTConnect Website.docx`; anything not covered by that document is shown as a clearly marked placeholder rather than invented.
 
+
 **Pages:** Home `/` · Platform Overview `/platform` · Pricing `/pricing` · About Us `/about` · Contact / Book a Demo `/contact` · Resources / FAQs `/resources`, plus a custom 404, `sitemap.xml`, `robots.txt`, a generated Open Graph image and a `POST /api/contact` endpoint.
 
 ## Stack

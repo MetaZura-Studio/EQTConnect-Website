@@ -2,7 +2,6 @@ import { faqs, resourceCategories, resources, resourcesContent } from "@/content
 import { pageMetadata } from "@/lib/seo";
 import { Accordion } from "@/components/ui/accordion";
 import { Container, Section } from "@/components/ui/layout";
-import { Pending, PendingNote } from "@/components/ui/pending";
 import { PageHero } from "@/components/sections/page-hero";
 import { CtaBanner } from "@/components/sections/cta-banner";
 import { ResourceLibrary } from "@/components/sections/resources/resource-library";
@@ -14,9 +13,7 @@ export const metadata = pageMetadata({
 });
 
 export default function ResourcesPage() {
-  const { hero, libraryHeading, sampleNotice, faqHeading, faqNotice } = resourcesContent;
-  const hasSamples = resources.some((r) => r.sample);
-  const hasDraftFaqs = faqs.some((f) => f.draft);
+  const { hero, libraryHeading, faqHeading } = resourcesContent;
 
   return (
     <>
@@ -29,11 +26,6 @@ export default function ResourcesPage() {
               {libraryHeading}
             </h2>
           </div>
-          {hasSamples ? (
-            <PendingNote title="Sample entries" className="mb-8">
-              {sampleNotice}
-            </PendingNote>
-          ) : null}
           <ResourceLibrary resources={resources} categories={resourceCategories} />
         </Container>
       </Section>
@@ -45,11 +37,6 @@ export default function ResourcesPage() {
               <h2 id="faq-heading" className="text-h2 font-semibold">
                 {faqHeading}
               </h2>
-              {hasDraftFaqs ? (
-                <div className="mt-6">
-                  <Pending>{faqNotice}</Pending>
-                </div>
-              ) : null}
             </div>
             <div className="lg:col-span-8">
               <Accordion

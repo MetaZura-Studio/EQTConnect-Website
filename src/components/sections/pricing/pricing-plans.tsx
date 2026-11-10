@@ -3,7 +3,6 @@ import type { PlanEntitlement, PricingPlan } from "@/types/content";
 import { planComparison, pricingContent, pricingPlans } from "@/content/pricing";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/button";
-import { Pending } from "@/components/ui/pending";
 import { Reveal } from "@/components/ui/reveal";
 
 const gridCols: Record<number, string> = {
@@ -34,26 +33,17 @@ export function PricingPlans() {
             <h3 className="text-lg font-semibold tracking-tight">{planLabel(plan, index)}</h3>
             <span className="font-mono text-2xs text-fg-subtle">0{index + 1}</span>
           </div>
-          <div className="mt-2 min-h-6">
-            {plan.name ? null : <Pending>Plan name to be confirmed</Pending>}
-          </div>
-          <p className="mt-3 text-sm text-fg-muted">{plan.audience ?? "Intended audience to be confirmed."}</p>
+          {plan.audience ? <p className="mt-3 text-sm text-fg-muted">{plan.audience}</p> : null}
 
           <div className="mt-8 border-t border-line pt-6">
             <p className="text-2xs font-medium uppercase tracking-[0.12em] text-fg-subtle">Price</p>
-            {plan.price ? (
-              <p className="tabular mt-2 text-3xl font-semibold tracking-tight">{plan.price}</p>
-            ) : (
-              <div className="mt-3">
-                <Pending>Pricing to be confirmed</Pending>
-              </div>
-            )}
+            {plan.price ? <p className="tabular mt-2 text-3xl font-semibold tracking-tight">{plan.price}</p> : null}
             {plan.priceNote ? <p className="mt-1 text-sm text-fg-subtle">{plan.priceNote}</p> : null}
           </div>
 
-          <div className="mt-6 flex-1">
-            <p className="text-2xs font-medium uppercase tracking-[0.12em] text-fg-subtle">Included</p>
-            {plan.features.length > 0 ? (
+          {plan.features.length > 0 ? (
+            <div className="mt-6 flex-1">
+              <p className="text-2xs font-medium uppercase tracking-[0.12em] text-fg-subtle">Included</p>
               <ul className="mt-3 space-y-2.5">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex gap-2.5 text-sm leading-relaxed text-fg-muted">
@@ -62,12 +52,10 @@ export function PricingPlans() {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <div className="mt-3">
-                <Pending>Entitlements pending confirmation</Pending>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="mt-6 flex-1" />
+          )}
 
           <ButtonLink href={plan.cta.href} variant={plan.highlighted ? "primary" : "secondary"} className="mt-8 w-full" withArrow>
             {plan.cta.label}
@@ -79,13 +67,7 @@ export function PricingPlans() {
 }
 
 function EntitlementCell({ value }: { value: PlanEntitlement }) {
-  if (value === null) {
-    return (
-      <span className="inline-flex items-center rounded-md border border-dashed border-pending-300 bg-pending-50 px-1.5 py-0.5 font-mono text-[0.625rem] font-semibold text-pending-800">
-        TBC<span className="sr-only"> — to be confirmed</span>
-      </span>
-    );
-  }
+  if (value === null) return <Minus aria-label="Not specified" className="mx-auto size-4 text-fg-subtle" />;
   if (value === true) return <Check aria-label="Included" className="mx-auto size-4 text-signal-600" strokeWidth={2.5} />;
   if (value === false) return <Minus aria-label="Not included" className="mx-auto size-4 text-fg-subtle" />;
   return <span className="text-sm text-fg">{value}</span>;

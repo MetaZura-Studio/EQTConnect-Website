@@ -4,7 +4,6 @@ import { capabilities } from "@/content/capabilities";
 import { isDeliveryConfigured } from "@/lib/contact/delivery";
 import { pageMetadata } from "@/lib/seo";
 import { Container, Eyebrow } from "@/components/ui/layout";
-import { Pending } from "@/components/ui/pending";
 import { ContactForm } from "@/components/sections/contact/contact-form";
 
 export const metadata = pageMetadata({
@@ -54,19 +53,29 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="mt-12 border-t border-line pt-8">
-              <h2 className="font-mono text-2xs uppercase tracking-[0.14em] text-fg-subtle">Other ways to reach us</h2>
-              <dl className="mt-5 space-y-4">
-                {contactRows.map((row) => (
-                  <div key={row.label} className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <dt className="w-16 text-sm text-fg-subtle">{row.label}</dt>
-                    <dd className="text-sm font-medium">
-                      {row.value ? row.href ? <a href={row.href} className="text-brand-700 hover:underline">{row.value}</a> : row.value : <Pending>{row.label} to be confirmed</Pending>}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+            {contactRows.some((row) => row.value) ? (
+              <div className="mt-12 border-t border-line pt-8">
+                <h2 className="font-mono text-2xs uppercase tracking-[0.14em] text-fg-subtle">Other ways to reach us</h2>
+                <dl className="mt-5 space-y-4">
+                  {contactRows
+                    .filter((row) => row.value)
+                    .map((row) => (
+                      <div key={row.label} className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                        <dt className="w-16 text-sm text-fg-subtle">{row.label}</dt>
+                        <dd className="text-sm font-medium">
+                          {row.href ? (
+                            <a href={row.href} className="text-brand-700 hover:underline">
+                              {row.value}
+                            </a>
+                          ) : (
+                            row.value
+                          )}
+                        </dd>
+                      </div>
+                    ))}
+                </dl>
+              </div>
+            ) : null}
           </div>
 
           <div className="lg:col-span-7">

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { footerNav, site } from "@/content/site";
 import { Container } from "@/components/ui/layout";
-import { Pending } from "@/components/ui/pending";
 import { Logo } from "@/components/layout/logo";
 
 export function SiteFooter() {
@@ -10,7 +9,14 @@ export function SiteFooter() {
   const legalLinks = [
     { label: "Privacy policy", href: site.legal.privacyPolicyHref },
     { label: "Terms of use", href: site.legal.termsHref },
-  ];
+  ].filter((link) => Boolean(link.href));
+  const contactRows = (
+    [
+      ["Email", site.contact.email, site.contact.email ? `mailto:${site.contact.email}` : null],
+      ["Phone", site.contact.phone, site.contact.phone ? `tel:${site.contact.phone.replace(/\s/g, "")}` : null],
+      ["Office", site.contact.address, null],
+    ] as const
+  ).filter(([, value]) => Boolean(value));
 
   return (
     <footer className="dark-surface relative overflow-hidden bg-ink-950 text-white">
@@ -23,32 +29,24 @@ export function SiteFooter() {
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/65">{site.description}</p>
 
-            <dl className="mt-8 space-y-3 text-sm">
-              {(
-                [
-                  ["Email", site.contact.email, site.contact.email ? `mailto:${site.contact.email}` : null],
-                  ["Phone", site.contact.phone, site.contact.phone ? `tel:${site.contact.phone.replace(/\s/g, "")}` : null],
-                  ["Office", site.contact.address, null],
-                ] as const
-              ).map(([label, value, href]) => (
-                <div key={label} className="flex items-center gap-4">
-                  <dt className="w-14 shrink-0 font-mono text-2xs uppercase tracking-[0.12em] text-white/45">{label}</dt>
-                  <dd className="text-white/80">
-                    {value ? (
-                      href ? (
+            {contactRows.length > 0 ? (
+              <dl className="mt-8 space-y-3 text-sm">
+                {contactRows.map(([label, value, href]) => (
+                  <div key={label} className="flex items-center gap-4">
+                    <dt className="w-14 shrink-0 font-mono text-2xs uppercase tracking-[0.12em] text-white/45">{label}</dt>
+                    <dd className="text-white/80">
+                      {href ? (
                         <a href={href} className="hover:text-white">
                           {value}
                         </a>
                       ) : (
                         value
-                      )
-                    ) : (
-                      <Pending className="border-white/25 bg-white/5 text-white/70">{label} to be confirmed</Pending>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">
@@ -76,21 +74,17 @@ export function SiteFooter() {
           <p>
             © {year} {legalEntity}. All rights reserved.
           </p>
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {legalLinks.map((link) =>
-              link.href ? (
+          {legalLinks.length > 0 ? (
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {legalLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="hover:text-white">
+                  <Link href={link.href!} className="hover:text-white">
                     {link.label}
                   </Link>
                 </li>
-              ) : (
-                <li key={link.label}>
-                  <Pending className="border-white/20 bg-white/5 text-white/60">{link.label} pending</Pending>
-                </li>
-              ),
-            )}
-          </ul>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </Container>
     </footer>

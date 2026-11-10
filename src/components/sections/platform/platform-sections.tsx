@@ -6,7 +6,6 @@ import { platformContent } from "@/content/platform";
 import { cn } from "@/lib/cn";
 import { capabilityIcons } from "@/components/capability-icons";
 import { Container, Eyebrow, Section } from "@/components/ui/layout";
-import { PendingNote } from "@/components/ui/pending";
 import { Reveal } from "@/components/ui/reveal";
 import { ShareholderRegisterMock } from "@/components/mockups/register";
 import { AgmOperationsMock } from "@/components/mockups/operations";
@@ -329,18 +328,13 @@ export function WorkflowSection() {
   return (
     <Section id={workflow.id} aria-labelledby={`${workflow.id}-heading`} className={cn("border-t border-line", sectionScroll)}>
       <Container>
-        <div className="grid gap-8 lg:grid-cols-12">
-          <Reveal className="lg:col-span-7">
-            <Eyebrow className="mb-5">{workflow.eyebrow}</Eyebrow>
-            <h2 id={`${workflow.id}-heading`} className="text-h2 font-semibold">
-              {workflow.heading}
-            </h2>
-            <p className="mt-5 max-w-2xl text-lead text-fg-muted">{workflow.subheading}</p>
-          </Reveal>
-          <Reveal delay={1} className="lg:col-span-4 lg:col-start-9 lg:self-end">
-            <PendingNote title="Pending business review">{workflow.reviewNote}</PendingNote>
-          </Reveal>
-        </div>
+        <Reveal className="max-w-3xl">
+          <Eyebrow className="mb-5">{workflow.eyebrow}</Eyebrow>
+          <h2 id={`${workflow.id}-heading`} className="text-h2 font-semibold">
+            {workflow.heading}
+          </h2>
+          <p className="mt-5 text-lead text-fg-muted">{workflow.subheading}</p>
+        </Reveal>
 
         <ol className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {workflow.steps.map((step, i) => {

@@ -8,7 +8,6 @@ import { contactFieldsSchema, MESSAGE_MAX_LENGTH, type ContactApiResponse, type 
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { Field, TextArea, TextInput } from "@/components/ui/field";
-import { PendingNote } from "@/components/ui/pending";
 import { Turnstile } from "@/components/sections/contact/turnstile";
 
 type SubmitState =
@@ -107,10 +106,13 @@ export function ContactForm({ deliveryConfigured, turnstileSiteKey }: { delivery
   return (
     <form className="relative" noValidate onSubmit={(event) => handleSubmit(onValid, (errs) => setFocus(Object.keys(errs)[0] as keyof ContactFields))(event)} aria-describedby="form-required-note">
       {!deliveryConfigured ? (
-        <PendingNote title="Online submissions are not active yet" className="mb-8">
-          A delivery integration has not been configured for this environment, so requests can&apos;t be sent from this form.
-          Submitting will show an error and nothing will be stored or sent.
-        </PendingNote>
+        <div role="note" className="mb-8 rounded-xl border border-line bg-subtle/80 p-4 text-sm text-fg-muted">
+          <p className="font-semibold text-fg">Online submissions are not active yet</p>
+          <p className="mt-1">
+            A delivery integration has not been configured for this environment, so requests can&apos;t be sent from this form.
+            Submitting will show an error and nothing will be stored or sent.
+          </p>
+        </div>
       ) : null}
 
       <p id="form-required-note" className="mb-6 text-sm text-fg-subtle">

@@ -67,15 +67,15 @@ All copy lives in `src/content/`, separate from layout code:
 
 ### Placeholders
 
-Information that needs business confirmation is stored as `null` (or an empty list) and rendered through the `Pending` / `PendingNote` components in `src/components/ui/pending.tsx`, which display an amber dashed "to be confirmed" marker. Supplying the real value in the content file automatically replaces the marker. To find what's outstanding:
+Information that needs business confirmation is stored as `null` (or an empty list). Unconfirmed contact/legal fields are hidden until values are supplied. To find what's outstanding:
 
 ```bash
-rg "null|Pending|pending|sample: true|provisional" src/content
+rg "null|sample: true|provisional" src/content
 ```
 
 Specifically:
 
-- **Contact details and legal links**: `site.contact` and `site.legal` in `site.ts`. The footer shows "Privacy policy pending" / "Terms of use pending" markers until URLs are provided.
+- **Contact details and legal links**: `site.contact` and `site.legal` in `site.ts`. Footer and contact page hide empty fields until values are provided.
 - **Client logos**: the trust section (`src/components/sections/home/trust-logos.tsx`, configured by `logoSlots` in `home.ts`) shows neutral placeholder tiles. Replace them with approved logos only, and only with permission to use them.
 - **Pricing**: `pricingPlans` and `planComparison` in `pricing.ts` (Free, Pro, Custom). Feature packaging is based on documented capabilities; Pro/Custom list prices stay contact-led until confirmed. `pricingFaqs` stays empty until verified commercial answers exist.
 - **Mission and company story**: `about.ts`. The current mission text is marked provisional.

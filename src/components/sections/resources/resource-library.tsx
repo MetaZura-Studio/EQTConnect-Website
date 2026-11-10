@@ -19,16 +19,11 @@ function ResourceCard({ resource }: { resource: Resource }) {
   const Icon = categoryIcons[resource.category];
   const body = (
     <>
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3">
         <span className="inline-flex items-center gap-2 text-xs font-medium text-fg-muted">
           <Icon aria-hidden="true" className="size-4 text-brand-600" strokeWidth={1.75} />
           {resource.category}
         </span>
-        {resource.sample ? (
-          <span className="rounded-md border border-dashed border-pending-300 bg-pending-50 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-[0.08em] text-pending-800">
-            Sample · not published
-          </span>
-        ) : null}
       </div>
       <h3 className="mt-6 text-lg font-semibold tracking-tight">{resource.title}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-fg-muted">{resource.summary}</p>

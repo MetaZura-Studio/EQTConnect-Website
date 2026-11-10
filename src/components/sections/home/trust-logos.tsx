@@ -1,6 +1,5 @@
 import { homeContent } from "@/content/home";
 import { Container } from "@/components/ui/layout";
-import { Pending } from "@/components/ui/pending";
 
 /**
  * Client logo strip. Slots stay as neutral placeholders until approved client logos
@@ -15,7 +14,6 @@ export function TrustLogos() {
           <h2 id="trust-heading" className="text-sm font-medium text-fg-muted">
             {trust.heading}
           </h2>
-          <Pending>Client logos pending approval and usage permission</Pending>
         </div>
         <ul className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {Array.from({ length: trust.logoSlots }, (_, i) => (

@@ -4,7 +4,6 @@ import { capabilities } from "@/content/capabilities";
 import { pageMetadata } from "@/lib/seo";
 import { capabilityIcons } from "@/components/capability-icons";
 import { Container, Eyebrow, Section } from "@/components/ui/layout";
-import { Pending, PendingNote } from "@/components/ui/pending";
 import { Reveal } from "@/components/ui/reveal";
 import { PageHero } from "@/components/sections/page-hero";
 import { CtaBanner } from "@/components/sections/cta-banner";
@@ -20,13 +19,7 @@ export default function AboutPage() {
   const { hero, mission, whatWeDo, whyPlatform, reserved } = aboutContent;
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} heading={hero.heading} subheading={hero.subheading}>
-        {hero.provisional ? (
-          <div className="mt-8">
-            <Pending>Provisional copy based on the platform description — pending approval</Pending>
-          </div>
-        ) : null}
-      </PageHero>
+      <PageHero eyebrow={hero.eyebrow} heading={hero.heading} subheading={hero.subheading} />
 
       <Section tone="surface" aria-labelledby="mission-heading" className="border-y border-line">
         <Container>
@@ -41,13 +34,7 @@ export default function AboutPage() {
               {mission.statement ? (
                 <blockquote className="text-h2 font-semibold">{mission.statement}</blockquote>
               ) : (
-                <>
-                  <PendingNote title="Official mission statement pending">
-                    Supply an approved mission statement to replace this note.
-                  </PendingNote>
-                  <p className="mt-10 text-h3 font-medium leading-snug text-fg">{mission.context}</p>
-                  <p className="mt-4 text-sm text-fg-subtle">Provisional context drawn from the documented platform purpose.</p>
-                </>
+                <p className="text-h3 font-medium leading-snug text-fg">{mission.context}</p>
               )}
             </Reveal>
           </div>
@@ -126,14 +113,11 @@ export default function AboutPage() {
 
       <Section aria-labelledby="story-heading">
         <Container>
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-xl">
-              <h2 id="story-heading" className="text-h2 font-semibold">
-                {reserved.heading}
-              </h2>
-              <p className="mt-4 text-fg-muted">{reserved.description}</p>
-            </div>
-            <Pending>Awaiting approved content and photography</Pending>
+          <div className="max-w-xl">
+            <h2 id="story-heading" className="text-h2 font-semibold">
+              {reserved.heading}
+            </h2>
+            <p className="mt-4 text-fg-muted">{reserved.description}</p>
           </div>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong bg-surface text-fg-subtle md:col-span-2 md:aspect-auto md:min-h-80">
